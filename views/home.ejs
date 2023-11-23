@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instagram clone</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../stylesheets/home.css" />
+  </head>
+  <body>
+    <div class="overlay">
+      <!-- post upload form -->
+      <form
+        action="/uploadpost"
+        class="upload-form"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <div class="main-nav">
+          <h3>Create Post</h3>
+          <img src="../images/cross.png" alt="" class="cross" />
+        </div>
+        <div class="upload-nav">
+          <div class="img-cnt">
+            <img src="<%= user.profile_picture %>" />
+          </div>
+          <div class="username"><%=user.fullName%></div>
+        </div>
+        <div class="upload-cnt">
+          <input
+            type="text"
+            name="title"
+            placeholder="What's on your mind ?"
+            id=""
+          />
+          <h6 class="upload-err">Invalid File type</h6>
+          <input type="file" name="file" id="" />
+          <button type="submit">Post</button>
+        </div>
+      </form>
+    </div>
+    <div class="overlay2"></div>
+    <div class="container">
+      <!-- starting nav section of instagram -->
+      <nav>
+        <div class="navbar">
+          <div class="instagram-text-logo">
+            <img
+              src="https://i.postimg.cc/qMFTcDw1/instagram-text.png"
+              id="white-color"
+              alt=""
+            />
+          </div>
+          <div class="sub-section" id="clicked">
+            <i class="fa-solid fa-house"></i>
+            <a href="#">Dark-mode</a>
+          </div>
+          <div class="sub-section">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <a href="#">Search</a>
+          </div>
+          <div class="sub-section">
+            <i class="fa-regular fa-compass"></i>
+            <a href="#">Explore</a>
+          </div>
+          <div class="sub-section">
+            <i class="fa-solid fa-clapperboard"></i>
+            <a href="#">Reels</a>
+          </div>
+          <div class="sub-section">
+            <i class="fa-regular fa-message"></i>
+            <a href="/chat">Messages</a>
+          </div>
+          <div class="sub-section" id="hidden2">
+            <i class="fa-regular fa-heart"></i>
+            <a href="#">Notification</a>
+          </div>
+          <div class="sub-section createpost" id="hidden1">
+            <i class="fa-solid fa-square-plus"></i>
+            <a>Create</a>
+          </div>
+          <div class="sub-section">
+            <div class="profile-img">
+              <a href="/profile/<%= user._id %>"
+                ><img src="<%= user.profile_picture %>" alt=""
+              /></a>
+            </div>
+            <a href="/profile/<%= user._id %>"> Profile</a>
+          </div>
+
+          <div class="menu-section" id="hidden">
+            <i class="fa-solid fa-bars"></i>
+            <a href="#">More</a>
+          </div>
+        </div>
+      </nav>
+      <div class="middle-section">
+        <div class="post-section">
+          <div class="nav-hidden">
+            <div class="nav-hidden-logo" id="white-2color">
+              <img
+                src="https://i.postimg.cc/qMFTcDw1/instagram-text.png"
+                alt=""
+              />
+            </div>
+            <div class="nav-hide-2">
+              <i class="fa-regular fa-heart"></i>
+              <i class="fa-regular fa-paper-plane"></i>
+            </div>
+          </div>
+          <div class="story-section">
+            <div class="story">
+              <div class="story-image">
+                <img
+                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZSUyMGltYWdlfGVufDB8fDB8fHww&auto=format&fit=crop&w=600&q=60"
+                  alt=""
+                />
+              </div>
+              <span>Aaradhya_gu.</span>
+            </div>
+            <div class="story">
+              <div class="story-image">
+                <img
+                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZSUyMGltYWdlfGVufDB8fDB8fHww&auto=format&fit=crop&w=600&q=60"
+                  alt=""
+                />
+              </div>
+              <span>Adah_paret..</span>
+            </div>
+            <div class="story" id="story-2">
+              <div class="story-image">
+                <img
+                  src="https://images.unsplash.com/photo-1517702145080-e4a4d91435bb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByb2ZpbGUlMjBpbWFnZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=600&q=60"
+                  alt=""
+                />
+              </div>
+              <span>Adhira_boi..</span>
+            </div>
+            <div class="story" id="story-3">
+              <div class="story-image">
+                <img
+                  src="https://media.istockphoto.com/id/1418475387/photo/robotic-hand-pressing-a-keyboard-on-a-laptop-3d-rendering.webp?b=1&s=612x612&w=0&k=20&c=bqtiTjtbsN85HMdO40gidWq6uE4BW1-RGlUOkSfEgoI="
+                  alt=""
+                />
+              </div>
+              <span>Anika@189</span>
+            </div>
+            <div class="story" id="story-4">
+              <div class="story-image">
+                <img
+                  src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cHJvZmlsZSUyMGltYWdlfGVufDB8fDB8fHww&auto=format&fit=crop&w=600&q=60"
+                  alt=""
+                />
+              </div>
+              <span>Kashvi_tut</span>
+            </div>
+            <div class="story" id="story-5">
+              <div class="story-image">
+                <img
+                  src="https://images.unsplash.com/photo-1558203728-00f45181dd84?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cHJvZmlsZSUyMGltYWdlfGVufDB8fDB8fHww&auto=format&fit=crop&w=600&q=60"
+                  alt=""
+                />
+              </div>
+              <span>Rebecca.io</span>
+            </div>
+            <div class="story" id="story-6">
+              <div class="story-image">
+                <img
+                  src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=600&q=60"
+                  alt=""
+                />
+              </div>
+              <span>Sahana_pie.</span>
+            </div>
+            <div class="story" id="story-7">
+              <div class="story-image">
+                <img
+                  src="https://plus.unsplash.com/premium_photo-1664453546896-ad5e0f895eab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=600&q=60"
+                  alt=""
+                />
+              </div>
+              <span>Zara_comp</span>
+            </div>
+          </div>
+          <div class="post-area">
+            
+          </div>
+        </div>
+        <div class="follow-section">
+          <div class="profile-follow profile-foolow-hovering">
+            <a href="/profile/<%= user._id %>">
+              <div class="profile-follow-left">
+                <div class="profile-follow-image">
+                  <img src="<%= user.profile_picture %>" alt="" />
+                </div>
+                <div class="profile-follow-content">
+                  <p class="profile-id"><%= user.fullName %></p>
+                  <!-- <p class="profile-name">Aaasu Yadav</p> -->
+                </div>
+              </div>
+            </a>
+            <a href="/logout" class="follow">Logout</a>
+          </div>
+          <div class="suggestion-follow">
+            <p class="suggestion">Suggested for you</p>
+            <a href="#" class="see-all">see all</a>
+          </div>
+          <% allUser.forEach(e => { %>
+          <a href="/profile/<%= e._id %>">
+            <div class="profile-follow profile-foolow-hovering">
+              <div class="profile-follow-left">
+                <div class="profile-follow-image">
+                  <img src="<%= e.profile_picture%>" alt="" />
+                </div>
+                <div class="profile-follow-content">
+                  <p class="profile-id"><%= e.fullName%></p>
+                  <p class="profile-name">Followed by shiv_s177</p>
+                </div>
+              </div>
+              <a href="#" class="follow">follow</a>
+            </div>
+          </a>
+          <% }); %>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.6/axios.min.js"
+      integrity="sha512-06NZg89vaTNvnFgFTqi/dJKFadQ6FIglD6Yg1HHWAUtVFFoXli9BZL4q4EO1UTKpOfCfW5ws2Z6gw49Swsilsg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="../javascripts/home.js"></script>
+  </body>
+</html>

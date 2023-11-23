@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../stylesheets/chat.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="main">
+      <nav>
+        <div class="navbar">
+          <div class="instagram-text-logo">
+            <img
+              src="https://i.postimg.cc/qMFTcDw1/instagram-text.png"
+              id="white-color"
+              alt=""
+            />
+          </div>
+          <div class="sub-section" id="clicked">
+            <i class="fa-solid fa-house"></i>
+            <a href="#">Home</a>
+          </div>
+          <div class="sub-section">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <a href="#">Search</a>
+          </div>
+          <div class="sub-section">
+            <i class="fa-regular fa-compass"></i>
+            <a href="#">Explore</a>
+          </div>
+          <div class="sub-section">
+            <i class="fa-solid fa-clapperboard"></i>
+            <a href="#">Reels</a>
+          </div>
+          <div class="sub-section">
+            <i class="fa-regular fa-message"></i>
+            <a href="#">Messages</a>
+          </div>
+          <div class="sub-section" id="hidden2">
+            <i class="fa-regular fa-heart"></i>
+            <a href="#">Notification</a>
+          </div>
+          <div class="sub-section createpost" id="hidden1">
+            <i class="fa-solid fa-square-plus"></i>
+            <a href="#">Create</a>
+          </div>
+          <div class="sub-section">
+            <div class="profile-img">
+              <img src="./direction.png" alt="" />
+            </div>
+            <a href="#"> Profile</a>
+          </div>
+
+          <div class="menu-section" id="hidden">
+            <i class="fa-solid fa-bars"></i>
+            <a href="#">More</a>
+          </div>
+        </div>
+      </nav>
+      <div class="chat-page">
+        <div class="left-sec">
+          <div class="left-header">
+            <div class="img">
+              <img src="<%= user.profile_picture %>" alt="" />
+            </div>
+            <div class="profile-name"><%= user.fullName %></div>
+          </div>
+          <div class="left-chat-sec">
+            <% allUser.forEach(e => { %>
+            <div
+              class="chat-user"
+              data-id="<%=e._id%>"
+              data-name="<%=e.fullName %>"
+              data-img="<%=e.profile_picture%>"
+            >
+              <div
+                class="img"
+                data-id="<%=e._id%>"
+                data-name="<%=e.fullName %>"
+                data-img="<%=e.profile_picture%>"
+              >
+                <img
+                  data-id="<%=e._id%>"
+                  data-name="<%=e.fullName %>"
+                  data-img="<%=e.profile_picture%>"
+                  src="<%= e.profile_picture %>"
+                  alt=""
+                />
+              </div>
+              <div
+                class="profile-name"
+                data-id="<%=e._id%>"
+                data-name="<%=e.fullName %>"
+                data-img="<%=e.profile_picture%>"
+              >
+                <%= e.fullName %>
+              </div>
+              <% if(e.is_online==1){ %>
+              <sub
+                class="online-status"
+                data-id="<%=e._id%>"
+                data-name="<%=e.fullName %>"
+                data-img="<%=e.profile_picture%>"
+                id="<%= e._id%>-status"
+                >online</sub
+              >
+              <% }else{ %>
+              <sub
+                class="offline-status"
+                data-id="<%=e._id%>"
+                data-name="<%=e.fullName %>"
+                data-img="<%=e.profile_picture%>"
+                id="<%= e._id%>-status"
+                >offline</sub
+              >
+              <% } %>
+            </div>
+            <% }); %>
+          </div>
+        </div>
+        <div class="right-sec">
+          <div class="right-header"></div>
+          <div class="right-chat-sec">
+            <div class="chat-area"></div>
+            <form action="" id="chat-form">
+              <input
+                id="message"
+                name="message"
+                type="text"
+                placeholder="Enter message"
+              />
+              <button>send</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.6/axios.min.js"
+      integrity="sha512-06NZg89vaTNvnFgFTqi/dJKFadQ6FIglD6Yg1HHWAUtVFFoXli9BZL4q4EO1UTKpOfCfW5ws2Z6gw49Swsilsg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+      integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var sender_id = "<%=user._id %>";
+      var receiver_id;
+      var socket = io("/user-namespace", {
+        auth: {
+          token: "<%=user._id %>",
+        },
+      });
+
+      function updateScroll(time) {
+        var element = document.querySelector(".chat-area");
+        setTimeout(() => {
+          element.scrollTop = element.scrollHeight;
+        }, time);
+      }
+      document
+        .querySelector(".left-chat-sec")
+        .addEventListener("click", function (e) {
+          updateScroll(500)
+          var userId = e.target.getAttribute("data-id");
+          var userImg = e.target.getAttribute("data-img");
+          var userName = e.target.getAttribute("data-name");
+          document.querySelector(
+            ".right-header"
+          ).innerHTML = ` <div class="img">
+              <img src="${userImg}" alt="" />
+            </div>
+            <div class="profile-name">${userName}</div>`;
+          receiver_id = userId;
+
+          document.querySelector(".right-sec").style.display = "block";
+          socket.emit("existsChat", {
+            sender_id: sender_id,
+            receiver_id: receiver_id,
+          });
+        });
+      socket.on("getOnlineUser", function (data) {
+        console.log($("#" + data.user_id + "-status"));
+        $("#" + data.user_id + "-status").html("online");
+        $("#" + data.user_id + "-status").removeClass("offline-status");
+        $("#" + data.user_id + "-status").addClass("online-status");
+      });
+      socket.on("getOfflineUser", function (data) {
+        $("#" + data.user_id + "-status").html(`offline`);
+        $("#" + data.user_id + "-status").addClass("offline-status");
+        $("#" + data.user_id + "-status").removeClass("online-status");
+      });
+
+      $("#chat-form").submit(function (e) {
+
+        e.preventDefault();
+        var message = $("#message").val();
+        $.ajax({
+          url: "/save-chat",
+          type: "POST",
+          data: {
+            sender_id: sender_id,
+            receiver_id: receiver_id,
+            message: message,
+          },
+          success: function (response) {
+            if (response.success) {
+              console.log(response.data.message);
+              $("#message").val("");
+              let chat = response.data.message;
+              let html = `<div class="receiver">
+                <h6>${chat}</h6>
+              </div>`;
+              $(".chat-area").append(html);
+              socket.emit("newChat", response.data);
+              updateScroll(100)
+            }
+          },
+        });
+      });
+      socket.on("loadNewChat", function (data) {
+        console.log(data.message);
+        if (sender_id == data.receiver_id && receiver_id == data.sender_id) {
+          let html = `<div class="sender">
+              <h6>${data.message}</h6>
+            </div>`;
+          $(".chat-area").append(html);
+          updateScroll(100)
+        }
+      });
+      socket.on("loadChats", function (data) {
+        $(".chat-area").html("");
+        var chats = data.chats;
+        let html = "";
+        chats.forEach((i) => {
+          let addClass = "";
+          if (i.sender_id == sender_id) {
+            addClass = "receiver";
+          } else {
+            addClass = "sender";
+          }
+          html += `<div class="${addClass}">
+              <h6>${i.message}</h6>
+            </div>`;
+        });
+        $(".chat-area").append(html);
+      });
+    </script>
+  </body>
+</html>
