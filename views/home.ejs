@@ -44,6 +44,12 @@
       </form>
     </div>
     <div class="overlay2"></div>
+    <div class="search-card mdl-card mdl-shadow--2dp">
+      <div class="search-inp">
+        <input class="mdl-textfield__input" type="text" id="sample1" />
+      </div>
+      <div class="search-content"></div>
+    </div>
     <div class="container">
       <!-- starting nav section of instagram -->
       <nav>
@@ -56,44 +62,44 @@
             />
           </div>
           <div class="sub-section" id="clicked">
-            <i class="fa-solid fa-house"></i>
-            <a href="#">Dark-mode</a>
+            <a href="/"><i class="fa-solid fa-house"></i></a>
+            <a href="/">Home</a>
           </div>
-          <div class="sub-section">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <a href="#">Search</a>
+          <div class="sub-section search-btn">
+            <a><i class="fa-solid fa-magnifying-glass search-btn"></i></a>
+            <a class="search-btn">Search</a>
           </div>
+
           <div class="sub-section">
-            <i class="fa-regular fa-compass"></i>
+            <a href=""><i class="fa-regular fa-compass"></i></a>
             <a href="#">Explore</a>
           </div>
+
           <div class="sub-section">
-            <i class="fa-solid fa-clapperboard"></i>
+            <a href="#"><i class="fa-solid fa-clapperboard"></i></a>
             <a href="#">Reels</a>
           </div>
           <div class="sub-section">
-            <i class="fa-regular fa-message"></i>
+            <a href="/chat"> <i class="fa-regular fa-message"></i></a>
             <a href="/chat">Messages</a>
           </div>
           <div class="sub-section" id="hidden2">
-            <i class="fa-regular fa-heart"></i>
+            <a href="#"> <i class="fa-regular fa-heart"></i></a>
             <a href="#">Notification</a>
           </div>
           <div class="sub-section createpost" id="hidden1">
-            <i class="fa-solid fa-square-plus"></i>
+            <a href=""><i class="fa-solid fa-square-plus"></i></a>
             <a>Create</a>
           </div>
           <div class="sub-section">
-            <div class="profile-img">
-              <a href="/profile/<%= user._id %>"
-                ><img src="<%= user.profile_picture %>" alt=""
-              /></a>
-            </div>
+            <a href="/profile/<%= user._id %>">
+              <div class="profile-img">
+                <img src="<%= user.profile_picture %>" alt="" /></div
+            ></a>
             <a href="/profile/<%= user._id %>"> Profile</a>
           </div>
-
           <div class="menu-section" id="hidden">
-            <i class="fa-solid fa-bars"></i>
+            <a href="#"> <i class="fa-solid fa-bars"></i></a>
             <a href="#">More</a>
           </div>
         </div>
@@ -186,9 +192,7 @@
               <span>Zara_comp</span>
             </div>
           </div>
-          <div class="post-area">
-            
-          </div>
+          <div class="post-area"></div>
         </div>
         <div class="follow-section">
           <div class="profile-follow profile-foolow-hovering">
@@ -210,7 +214,9 @@
             <a href="#" class="see-all">see all</a>
           </div>
           <% allUser.forEach(e => { %>
-          <a href="/profile/<%= e._id %>">
+            <% console.log(e.followers.includes(user._id)) %>
+          <% if(e.followers.includes(user._id)===false){ %>
+            <a href="/profile/<%=e._id %>">
             <div class="profile-follow profile-foolow-hovering">
               <div class="profile-follow-left">
                 <div class="profile-follow-image">
@@ -221,9 +227,14 @@
                   <p class="profile-name">Followed by shiv_s177</p>
                 </div>
               </div>
-              <a href="#" class="follow">follow</a>
+              <% if(e.followers.includes(user._id)){ %>
+              <a href="/follow/<%=e._id%>" class="follow">Unfollow</a>
+              <% } else{ %>
+              <a href="/follow/<%=e._id%>" class="follow">follow</a>
+              <% } %>
             </div>
           </a>
+          <% } %>
           <% }); %>
         </div>
       </div>

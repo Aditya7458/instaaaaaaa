@@ -1,16 +1,16 @@
-var dark = document.getElementById("clicked");
-var white = document.getElementById("white-color");
-var lol = document.getElementById("white-2color");
-dark.onclick = function () {
-  document.body.classList.toggle("dark-mode");
-  if (document.body.classList.contains("dark-mode")) {
-    white.style.filter = "brightness(5)";
-    lol.style.filter = "brightness(5)";
-  } else {
-    white.style.filter = "none";
-    lol.style.filter = "none";
-  }
-};
+// // var dark = document.getElementById("clicked");
+// var white = document.getElementById("white-color");
+// var lol = document.getElementById("white-2color");
+// dark.onclick = function () {
+//   document.body.classList.toggle("dark-mode");
+//   if (document.body.classList.contains("dark-mode")) {
+//     white.style.filter = "brightness(5)";
+//     lol.style.filter = "brightness(5)";
+//   } else {
+//     white.style.filter = "none";
+//     lol.style.filter = "none";
+//   }
+// };
 
 // cross post button overlay
 var post_area = document.querySelector(".post-area");
@@ -35,7 +35,7 @@ var user = {};
 var temp = "";
 const likeHandler = async function (e) {
   const res = await axios.get(`/like/${e}`);
-  loadPosts()
+  loadPosts();
 };
 
 const loadPosts = async function () {
@@ -50,12 +50,12 @@ const loadPosts = async function () {
       return null;
     });
     // console.log(likesCount[likesCount.length-1])
-    handle(res.data.posts, likesCount);
+    handle(res.data.posts, user);
   } catch (error) {
     console.error("Error loading posts:", error);
   }
 };
-loadPosts()
+loadPosts();
 
 const timeSince = (timestamp) => {
   const seconds = Math.floor((Date.now() - timestamp) / 1000);
@@ -84,10 +84,10 @@ const timeSince = (timestamp) => {
   return `${Math.floor(seconds)} seconds ago`;
 };
 
-const handle = (data, like) => {
-  temp=""
+const handle = (data, user) => {
+  temp = "";
   data.reverse().forEach((e, index) => {
-    console.log(like[index])
+    // console.log(like[index]);
     temp += `<div  class="post-main" >
               <div class="post-header">
                 <div class="post-left-header">
@@ -121,10 +121,15 @@ const handle = (data, like) => {
                   <i class="fa-regular fa-message comment " id=${e._id}></i>
                   <i class="fa-regular fa-paper-plane"></i>
                 </div>
-                <i class="fa-regular fa-bookmark"></i>
+                ${
+                  user.bookmarks.includes(e._id)
+                    ? ` <i class="fa-solid fa-bookmark" id="${e._id}"></i>`
+                    : `<i class="fa-regular fa-bookmark" id="${e._id}"></i>`
+                }
               </div>
               <div class="post-description">
-                <p class="post-liked">Liked by ${like[index]|| "No one"} and others</p>
+                <p class="post-liked">Liked by 
+                "No one"  and others</p>
                 <p class="title">
                   <span>${e.title} </span>
                 </p>
@@ -132,16 +137,21 @@ const handle = (data, like) => {
               </div>
             </div>`;
   });
-  post_area.innerHTML=temp
+  post_area.innerHTML = temp;
 };
 
 var overlay2 = document.querySelector(".overlay2");
-
+var handdleBookmark = async (e) => {
+  const res = await axios.get(`/bookmark-post/${e}`);
+  loadPosts()
+};
 
 post_area.addEventListener("click", async (e) => {
   if (e.target.classList.contains("like")) {
     likeHandler(e.target.id);
-  }else if (e.target.classList.contains("comment")) {
+  } else if (e.target.classList.contains("fa-bookmark")) {
+    handdleBookmark(e.target.id);
+  } else if (e.target.classList.contains("comment")) {
     const { data } = await axios.get(`/post/${e.target.id}`);
     overlay2.style.display = "block";
     document.body.style.overflow = "hidden";
@@ -192,4 +202,33 @@ overlay2.addEventListener("click", (e) => {
     overlay2.style.display = "none";
     document.body.style.overflow = "auto";
   }
+});
+var content = document.querySelector(".search-content");
+document.querySelector(".search-btn").addEventListener("click", () => {
+  content.innerHTML = "";
+  document.querySelector(".search-card").style.display = "flex";
+  document.querySelector(".mdl-textfield__input").focus();
+  document.querySelector(".mdl-textfield__input").value = "";
+});
+document.querySelector(".search-inp").addEventListener("keydown", function (e) {
+  console.log(e.target.value);
+  if (e.target.value.length > 0) {
+    axios.get(`/username/${e.target.value}`).then((res) => {
+      content.innerHTML = "";
+      console.log(res.data);
+      res.data.foundUser.forEach((user) => {
+        content.innerHTML += `<a href="/profile/${user._id}"> <div class="search-img">
+          <img src="${user.profile_picture}" alt="">
+        </div>
+        <div class="search-name">
+          <h3>${user.fullName}</h3>
+        </div></a>`;
+      });
+    });
+  }
+});
+document.querySelector(".search-inp").addEventListener("focusout", () => {
+  setTimeout(() => {
+    document.querySelector(".search-card").style.display = "none";
+  }, 500);
 });

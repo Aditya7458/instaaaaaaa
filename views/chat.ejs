@@ -16,23 +16,30 @@
     <title>Document</title>
   </head>
   <body>
+    <div class="search-card card mdl-card mdl-shadow--2dp">
+      <div class="search-inp search-input">
+        <input class="mdl-textfield__input" type="text" id="sample1" />
+      </div>
+      <div class="content "></div>
+    </div>
     <div class="main">
       <nav>
         <div class="navbar">
-          <div class="instagram-text-logo">
+          <a href="/"><div class="instagram-text-logo">
             <img
               src="https://i.postimg.cc/qMFTcDw1/instagram-text.png"
               id="white-color"
               alt=""
             />
           </div>
+          </a>
           <div class="sub-section" id="clicked">
             <i class="fa-solid fa-house"></i>
-            <a href="#">Home</a>
+            <a href="/">Home</a>
           </div>
           <div class="sub-section">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <a href="#">Search</a>
+            <a  class="search-btn">Search</a>
           </div>
           <div class="sub-section">
             <i class="fa-regular fa-compass"></i>
@@ -44,7 +51,7 @@
           </div>
           <div class="sub-section">
             <i class="fa-regular fa-message"></i>
-            <a href="#">Messages</a>
+            <a href="/chat">Messages</a>
           </div>
           <div class="sub-section" id="hidden2">
             <i class="fa-regular fa-heart"></i>
@@ -69,12 +76,14 @@
       </nav>
       <div class="chat-page">
         <div class="left-sec">
-          <div class="left-header">
-            <div class="img">
-              <img src="<%= user.profile_picture %>" alt="" />
-            </div>
-            <div class="profile-name"><%= user.fullName %></div>
-          </div>
+          <a href="/profile/<%=user._id%>">
+            <div class="left-header">
+              <div class="img">
+                <img src="<%= user.profile_picture %>" alt="" />
+              </div>
+              <div class="profile-name"><%= user.fullName %></div>
+            </div></a
+          >
           <div class="left-chat-sec">
             <% allUser.forEach(e => { %>
             <div
@@ -176,7 +185,7 @@
       document
         .querySelector(".left-chat-sec")
         .addEventListener("click", function (e) {
-          updateScroll(500)
+          updateScroll(500);
           var userId = e.target.getAttribute("data-id");
           var userImg = e.target.getAttribute("data-img");
           var userName = e.target.getAttribute("data-name");
@@ -207,7 +216,6 @@
       });
 
       $("#chat-form").submit(function (e) {
-
         e.preventDefault();
         var message = $("#message").val();
         $.ajax({
@@ -228,7 +236,7 @@
               </div>`;
               $(".chat-area").append(html);
               socket.emit("newChat", response.data);
-              updateScroll(100)
+              updateScroll(100);
             }
           },
         });
@@ -240,7 +248,7 @@
               <h6>${data.message}</h6>
             </div>`;
           $(".chat-area").append(html);
-          updateScroll(100)
+          updateScroll(100);
         }
       });
       socket.on("loadChats", function (data) {
@@ -259,6 +267,34 @@
             </div>`;
         });
         $(".chat-area").append(html);
+      });
+      var content = document.querySelector(".content");
+      document.querySelector(".search-btn").addEventListener("click", () => {
+        document.querySelector(".search-card").style.display = "flex";
+      });
+      document
+        .querySelector(".search-inp")
+        .addEventListener("keydown", function (e) {
+          console.log(e.target.value);
+          if (e.target.value.length > 0) {
+            axios.get(`/username/${e.target.value}`).then((res) => {
+              content.innerHTML = "";
+              console.log(res.data);
+              res.data.foundUser.forEach((user) => {
+                content.innerHTML += `<a href="/profile/${user._id}"> <div class="search-img">
+          <img src="${user.profile_picture}" alt="">
+        </div>
+        <div class="search-name">
+          <h3>${user.fullName}</h3>
+        </div></a>`;
+              });
+            });
+          }
+        });
+      document.querySelector(".search-input").addEventListener("focusout", () => {
+        setTimeout(() => {
+          document.querySelector(".card").style.display = "none";
+        }, 500);
       });
     </script>
   </body>

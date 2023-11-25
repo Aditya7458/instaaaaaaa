@@ -94,16 +94,14 @@
           <% } %>
           <div class="profile-user-settings">
             <h1 class="profile-user-name"><%= user.fullName %></h1>
-            <% if(followUser.followers.includes(loggedInUser._id)){ %>
+            <% if(loggedInUser._id.toString()==user._id.toString()){ %>
+            <button class="btn profile-edit-btn">Edit Profile</button>
+            <% }else if(followUser.followers.includes(loggedInUser._id) &&loggedInUser._id.toString()!=followUser._id.toString() ){ %>
               <a href="/follow/<%= followUser._id%>"><button>following</button></a>
             <% }else{ %>
               <a href="/follow/<%= followUser._id%>"><button>follow</button></a>
            <% }%>
-            <% if(loggedInUser._id.toString()==user._id.toString()){ %>
-            <button class="btn profile-edit-btn">Edit Profile</button>
-
-            <% } %>
-
+            
             <button
               class="btn profile-settings-btn"
               aria-label="profile settings"
@@ -140,7 +138,8 @@
     <main>
       <div class="container">
         <div class="gallery">
-          <% user.posts.forEach(e => { %>
+          <% if(user.length>0){ %>
+            <% user.posts.forEach(e => { %>
           <div class="gallery-item" tabindex="0">
             <img src="<%= e.file %>" class="gallery-image" alt="" />
             <div class="gallery-item-info">
@@ -157,6 +156,9 @@
             </div>
           </div>
           <% }); %>
+          <% } else{ %>
+            <h1>No post yet!</h1>
+          <% } %>
         </div>
         <!-- End of gallery -->
       </div>

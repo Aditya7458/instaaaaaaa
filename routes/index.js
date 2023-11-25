@@ -65,14 +65,40 @@ router.get("/", async function (req, res, next) {
     res.render("login");
   }
 });
+// bookmarks
+
+router.get("/bookmark-post/:id", isLoggedIn, async function (req, res, next) {
+  const user = await userSchema.findOne({ _id: req.user._id });
+  if (user.bookmarks.includes(req.params.id)) {
+    user.bookmarks.pull(req.params.id);
+  } else {
+    user.bookmarks.push(req.params.id);
+  }
+  await user.save()
+  res.json({user:user})
+});
+
+// search
+router.get("/username/:name", isLoggedIn, async function (req, res, next) {
+  console.log(req.params.name);
+  const foundUser = await userSchema.find({
+    fullName: { $regex: req.params.name, $options: "i" },
+  });
+  console.log(foundUser);
+  res.json({ foundUser: foundUser });
+});
 
 router.get("/profile/:id", isLoggedIn, async function (req, res, next) {
-  const followUser = await userSchema.findOne({_id:req.params.id})
+  const followUser = await userSchema.findOne({ _id: req.params.id });
   const user = await userSchema
     .findById(req.params.id)
     .populate("friends posts");
   const loggedInUser = await userSchema.findById(req.user._id);
-  res.render("profile", { user: user, loggedInUser: loggedInUser, followUser:followUser });
+  res.render("profile", {
+    user: user,
+    loggedInUser: loggedInUser,
+    followUser: followUser,
+  });
 });
 // chat page
 
@@ -131,7 +157,11 @@ router.get("/post/:id", isLoggedIn, async (req, res) => {
 router.get("/follow/:id", isLoggedIn, async (req, res) => {
   const followUser = await userSchema.findOne({ _id: req.params.id });
   const loggedInUser = await userSchema.findOne({ _id: req.user._id });
-  if (followUser.followers.indexOf(loggedInUser)) {
+  console.log(followUser.followers.indexOf(loggedInUser._id));
+  if (followUser.followers.indexOf(loggedInUser._id) === -1) {
+    followUser.followers.push(loggedInUser._id);
+    loggedInUser.following.push(followUser._id);
+  } else {
     followUser.followers.splice(
       followUser.followers.indexOf(loggedInUser._id),
       1
@@ -140,13 +170,10 @@ router.get("/follow/:id", isLoggedIn, async (req, res) => {
       loggedInUser.following.indexOf(followUser._id),
       1
     );
-  } else {
-    followUser.followers.push(loggedInUser._id)
-    loggedInUser.following.push(followUser._id)
   }
-  await loggedInUser.save()
-  await followUser.save()
-  res.redirect(req.header("referer"))
+  await loggedInUser.save();
+  await followUser.save();
+  res.redirect(req.header("referer"));
 });
 
 // deletecomment

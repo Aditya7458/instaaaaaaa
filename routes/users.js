@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
     default: "0",
   },
   links: { default: "", type: String },
-  // bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
+  bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
   // blocked: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   // reports: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 });
