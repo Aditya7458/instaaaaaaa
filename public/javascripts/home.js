@@ -19,6 +19,7 @@ var btnoverlay = document.querySelector(".createpost");
 
 btnoverlay.addEventListener("click", () => {
   overlay.style.display = "block";
+  overlay.style.transition = "all ease .5s";
 });
 overlay.addEventListener("click", (e) => {
   if (
@@ -26,6 +27,7 @@ overlay.addEventListener("click", (e) => {
     e.target.classList.contains("cross")
   ) {
     overlay.style.display = "none";
+    overlay.style.transition = "all ease .5s";
   }
 });
 
@@ -90,7 +92,7 @@ const handle = (data, user) => {
     // console.log(like[index]);
     temp += `<div  class="post-main" >
               <div class="post-header">
-                <div class="post-left-header">
+                <div class="post-left-header">  
                   <div class="post-image">
                     <img src="${e.author.profile_picture}" alt="" />
                   </div>
@@ -99,7 +101,7 @@ const handle = (data, user) => {
                   >
                   <i class="fa-solid fa-certificate"></i>
                   <span class="one-day"
-                    > ${timeSince(Date.now() - parseInt(e.updatedAt))} </span
+                    > ${timeSince(parseInt(e.updatedAt))} </span
                   >
                 </div>
                 <i class="fa-solid fa-grip-lines"></i>
@@ -152,9 +154,9 @@ post_area.addEventListener("click", async (e) => {
   } else if (e.target.classList.contains("fa-bookmark")) {
     handdleBookmark(e.target.id);
   } else if (e.target.classList.contains("comment")) {
+    document.body.style.overflow = "hidden";
     const { data } = await axios.get(`/post/${e.target.id}`);
     overlay2.style.display = "block";
-    document.body.style.overflow = "hidden";
     overlay2.innerHTML = `<div class="comment-popup-container">
     <ul class="comments-list">
     ${
@@ -207,6 +209,9 @@ var content = document.querySelector(".search-content");
 document.querySelector(".search-btn").addEventListener("click", () => {
   content.innerHTML = "";
   document.querySelector(".search-card").style.display = "flex";
+  document.querySelector(".search-card").style.left = "65px";
+  document.querySelector(".main").style.position = "fixed";
+  document.querySelector(".search-card").style.transition = "all ease .4s";
   document.querySelector(".mdl-textfield__input").focus();
   document.querySelector(".mdl-textfield__input").value = "";
 });
@@ -217,7 +222,8 @@ document.querySelector(".search-inp").addEventListener("keydown", function (e) {
       content.innerHTML = "";
       console.log(res.data);
       res.data.foundUser.forEach((user) => {
-        content.innerHTML += `<a href="/profile/${user._id}"> <div class="search-img">
+        content.innerHTML += `
+        <a href="/profile/${user._id}"> <div class="search-img">
           <img src="${user.profile_picture}" alt="">
         </div>
         <div class="search-name">
@@ -230,5 +236,16 @@ document.querySelector(".search-inp").addEventListener("keydown", function (e) {
 document.querySelector(".search-inp").addEventListener("focusout", () => {
   setTimeout(() => {
     document.querySelector(".search-card").style.display = "none";
+    document.querySelector(".main").style.position = "relative";
+    document.querySelector(".search-card").style.transition = "all ease .4s";
   }, 500);
+});
+document.querySelector(".menu-section1").addEventListener("click", (e) => {
+  if (
+    e.target.classList.contains("menu-section1")
+    ) {
+     document.querySelector(".menu-overlay").style.display="flex";
+  } else {
+    document.querySelector(".menu-overlay").style.display = "none";
+   }
 });
