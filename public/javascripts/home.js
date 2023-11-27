@@ -12,6 +12,27 @@
 //   }
 // };
 
+// check file fn
+var checkFile = () => {
+  // document.querySelector("#file_inp")
+  var selected_inp = document.querySelector("#file_inp");
+  if (!selected_inp) {
+    return;
+  }
+  const allowedMimeTypes = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "video/mp4",
+    "video/mpeg",
+    "video/quicktime",
+  ];
+  if (!allowedMimeTypes.includes(selected_inp.files[0].type)) {
+    alert("Invalid file type ");
+    selected_inp.value = "";
+  }
+};
+
 // cross post button overlay
 var post_area = document.querySelector(".post-area");
 var overlay = document.querySelector(".overlay");
@@ -145,7 +166,7 @@ const handle = (data, user) => {
 var overlay2 = document.querySelector(".overlay2");
 var handdleBookmark = async (e) => {
   const res = await axios.get(`/bookmark-post/${e}`);
-  loadPosts()
+  loadPosts();
 };
 
 post_area.addEventListener("click", async (e) => {
@@ -241,15 +262,14 @@ document.querySelector(".search-inp").addEventListener("focusout", () => {
   }, 500);
 });
 
-
 document.querySelector(".middle-section").addEventListener("click", () => {
   document.querySelector(".menu-overlay").style.display = "none";
 });
 var toggleMenu = function (e) {
-  var menu_overlay = document.querySelector(".menu-overlay")
+  var menu_overlay = document.querySelector(".menu-overlay");
   if (menu_overlay.style.display === "flex") {
-    menu_overlay.style.display="none"
+    menu_overlay.style.display = "none";
   } else {
-    menu_overlay.style.display="flex"
+    menu_overlay.style.display = "flex";
   }
-}
+};

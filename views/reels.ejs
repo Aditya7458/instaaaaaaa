@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Swiper demo</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+    />
+    <!-- Link Swiper's CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../stylesheets/reels.css" />
+
+    <!-- Demo styles -->
+  </head>
+
+  <body>
+    <div class="swiper mySwiper">
+      <nav>
+        <div class="navbar">
+          <div class="instagram-text-logo">
+            <img
+              src="https://i.postimg.cc/qMFTcDw1/instagram-text.png"
+              id="white-color"
+              alt=""
+            />
+          </div>
+          <div class="sub-section" id="clicked">
+            <a href="/"><i class="fa-solid fa-house"></i></a>
+            <a href="/">Home</a>
+          </div>
+          <div class="sub-section search-btn">
+            <a><i class="fa-solid fa-magnifying-glass search-btn"></i></a>
+            <a class="search-btn">Search</a>
+          </div>
+
+          <div class="sub-section">
+            <a href=""><i class="fa-regular fa-compass"></i></a>
+            <a href="#">Explore</a>
+          </div>
+
+          <div class="sub-section">
+            <a href="/reels"><i class="fa-solid fa-clapperboard"></i></a>
+            <a href="/reels">Reels</a>
+          </div>
+          <div class="sub-section">
+            <a href="/chat"> <i class="fa-regular fa-message"></i></a>
+            <a href="/chat">Messages</a>
+          </div>
+          <div class="sub-section" id="hidden2">
+            <a href="#"> <i class="fa-regular fa-heart"></i></a>
+            <a href="#">Notification</a>
+          </div>
+          <div class="sub-section createpost" id="hidden1">
+            <a><i class="fa-solid fa-square-plus"></i></a>
+            <a>Create</a>
+          </div>
+          <div class="sub-section">
+            <a href="/profile/<%= user._id %>">
+              <div class="profile-img">
+                <img src="<%= user.profile_picture %>" alt="" /></div
+            ></a>
+            <a href="/profile/<%= user._id %>"> Profile</a>
+          </div>
+          <div class="menu-section" id="hidden">
+            <a> <i class="fa-solid fa-bars"></i></a>
+            <a>More</a>
+          </div>
+        </div>
+      </nav>
+      <!-- Swiper -->
+      <div class="swiper-wrapper">
+        <% posts.forEach(e=> { %> <% if(e.filetype=="video"){ %>
+        <div class="swiper-slide">
+          <video controls src="<%=e.file%>"></video>
+        </div>
+        <% } %> <% }); %>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="../javascripts/reels.js"></script>
+  </body>
+</html>

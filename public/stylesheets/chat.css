@@ -18,31 +18,87 @@ body {
 .navbar {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   height: 100vh;
-  width: 18vw;
+  width: 245px;
   /* justify-content: space-between; */
   background-color: var(--background-color);
   padding-top: 20px;
   padding-bottom: 10px;
   padding-inline: 10px;
-  border-right: 0.1px solid rgba(76, 75, 75, 0.737);
+  border-right: 0.1px solid rgba(76, 75, 75, 0.466);
   position: sticky;
   top: 0px;
 }
-.navbar a {
-  text-decoration: none;
-  color: #fff;
-}
-.instagram-text-logo {
-  width: 150px;
-  margin: 5px 30px;
-  cursor: pointer;
+
+@media (max-width: 750px) {
+  .container .navbar {
+    flex-direction: row;
+    background-color: var(--background-color);
+    position: fixed;
+    z-index: 1000;
+    height: 60px;
+    bottom: -1px;
+    top: auto;
+    gap: 0;
+    border-right: none;
+    width: 100vw;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0;
+    box-shadow: -1px 14px 20px 4px black;
+  }
+
+  .middle-section .post-section {
+    padding: 40px 5px;
+  }
+
+  .navbar a {
+    display: none;
+  }
+
+  .navbar .sub-section {
+    padding: 10px 10px;
+  }
+
+  #hidden {
+    display: none;
+  }
+
+  #hidden1 {
+    display: none;
+  }
+
+  #hidden2 {
+    display: none;
+  }
+
+  .instagram-text-logo {
+    display: none;
+  }
 }
 
-.instagram-text-logo img {
-  width: 100%;
-  /* filter: brightness(5); */
+@media (max-width: 1198px) {
+  .navbar .sub-section a {
+    display: none;
+  }
+
+  .navbar .menu-section a {
+    display: none;
+  }
+
+  .navbar .sub-section {
+    gap: 0;
+  }
+
+  .instagram-text-logo {
+    display: none;
+    /* position: absolute; */
+  }
+
+  .navbar {
+    width: 79px;
+  }
 }
 .sub-section {
   display: flex;
@@ -52,6 +108,9 @@ body {
   cursor: pointer;
   padding: 10px 20px;
   transition: all 0.2s ease;
+}
+.sub-section a {
+  all: unset;
 }
 
 .sub-section:hover {
@@ -77,6 +136,7 @@ body {
   color: var(--font-color);
   transition: all 0.2s ease;
 }
+
 .profile-img {
   width: 25px;
   height: 25px;

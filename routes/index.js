@@ -29,30 +29,26 @@ const storage = multer.diskStorage({
 });
 
 // filter images and vedios while upload
-const fileFilter = (req, file, cb) => {
-  const allowedMimeTypes = [
-    "image/jpeg",
-    "image/jpg",
-    "image/png",
-    "video/mp4",
-    "video/mpeg",
-    "video/quicktime",
-  ];
 
-  if (allowedMimeTypes.includes(file.mimetype)) {
-    cb(null, true);
-    return next();
-  } else {
-    cb(
-      new Error(
-        "Invalid file type. Only images (JPEG, PNG) and videos (MP4, MPEG, QuickTime) are allowed."
-      ),
-      false
-    );
-  }
-};
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    const allowedMimeTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "video/mp4",
+      "video/mpeg",
+      "video/quicktime",
+    ];
 
-const upload = multer({ storage });
+    if (allowedMimeTypes.includes(file.mimetype)) {
+      return cb(null, true);
+    } else {
+      return cb(false);
+    }
+  },
+});
 
 /* GET login page. */
 router.get("/", async function (req, res, next) {
@@ -74,8 +70,8 @@ router.get("/bookmark-post/:id", isLoggedIn, async function (req, res, next) {
   } else {
     user.bookmarks.push(req.params.id);
   }
-  await user.save()
-  res.json({user:user})
+  await user.save();
+  res.json({ user: user });
 });
 
 // search
@@ -112,7 +108,13 @@ router.get("/chat", isLoggedIn, async function (req, res, next) {
 router.get("/signup", function (req, res, next) {
   res.render("signup");
 });
-
+// reels
+router.get("/reels",isLoggedIn, async function (req, res, next) {
+  const user = await userSchema.findOne({ _id: req.user._id });
+  const allUser = await userSchema.find({ _id: { $ne: req.user._id } });
+  const posts = await postSchema.find({}).populate("author");
+  res.render("reels", { user: user, posts: posts, allUser: allUser });
+});
 router.get("/posts", isLoggedIn, async function (req, res, next) {
   const user = await userSchema.findOne({ _id: req.user._id });
   const posts = await postSchema.find({}).populate("author");
