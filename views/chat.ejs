@@ -24,55 +24,58 @@
     </div>
     <div class="main">
       <nav>
-        <div class="navbar">
-          <a href="/"><div class="instagram-text-logo">
-            <img
-              src="https://i.postimg.cc/qMFTcDw1/instagram-text.png"
-              id="white-color"
-              alt=""
-            />
-          </div>
-          </a>
-          <div class="sub-section" id="clicked">
-            <i class="fa-solid fa-house"></i>
-            <a href="/">Home</a>
-          </div>
-          <div class="sub-section">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <a  class="search-btn">Search</a>
-          </div>
-          <div class="sub-section">
-            <i class="fa-regular fa-compass"></i>
-            <a href="#">Explore</a>
-          </div>
-          <div class="sub-section">
-            <i class="fa-solid fa-clapperboard"></i>
-            <a href="#">Reels</a>
-          </div>
-          <div class="sub-section">
-            <i class="fa-regular fa-message"></i>
-            <a href="/chat">Messages</a>
-          </div>
-          <div class="sub-section" id="hidden2">
-            <i class="fa-regular fa-heart"></i>
-            <a href="#">Notification</a>
-          </div>
-          <div class="sub-section createpost" id="hidden1">
-            <i class="fa-solid fa-square-plus"></i>
-            <a href="#">Create</a>
-          </div>
-          <div class="sub-section">
-            <div class="profile-img">
-              <img src="./direction.png" alt="" />
+         <nav>
+          <div class="navbar">
+            <div class="instagram-text-logo">
+              <img
+                src="https://i.postimg.cc/qMFTcDw1/instagram-text.png"
+                id="white-color"
+                alt=""
+              />
             </div>
-            <a href="#"> Profile</a>
-          </div>
+            <div class="sub-section" id="clicked">
+              <a href="/"><i class="fa-solid fa-house"></i></a>
+              <a href="/" style="font-weight: 600">Home</a>
+            </div>
+            <div class="sub-section search-btn">
+              <a><i class="fa-solid fa-magnifying-glass search-btn"></i></a>
+              <a class="search-btn">Search</a>
+            </div>
 
-          <div class="menu-section" id="hidden">
-            <i class="fa-solid fa-bars"></i>
-            <a href="#">More</a>
+            <div class="sub-section">
+              <a href=""><i class="fa-regular fa-compass"></i></a>
+              <a href="#">Explore</a>
+            </div>
+
+            <div class="sub-section">
+              <a href="#"><i class="fa-solid fa-clapperboard"></i></a>
+              <a href="#">Reels</a>
+            </div>
+            <div class="sub-section">
+              <a href="/chat"> <i class="fa-regular fa-message"></i></a>
+              <a href="/chat">Messages</a>
+            </div>
+            <div class="sub-section" id="hidden2">
+              <a href="#"> <i class="fa-regular fa-heart"></i></a>
+              <a href="#">Notification</a>
+            </div>
+            <div class="sub-section createpost" id="hidden1">
+              <a href=""><i class="fa-solid fa-square-plus"></i></a>
+              <a>Create</a>
+            </div>
+            <div class="sub-section">
+              <a href="/profile/<%= user._id %>">
+                <div class="profile-img">
+                  <img src="<%= user.profile_picture %>" alt="" /></div
+              ></a>
+              <a href="/profile/<%= user._id %>"> Profile</a>
+            </div>
+            <div class="menu-section" id="hidden">
+              <a> <i class="fa-solid fa-bars"></i></a>
+              <a>More</a>
+            </div>
           </div>
-        </div>
+        </nav>
       </nav>
       <div class="chat-page">
         <div class="left-sec">

@@ -240,12 +240,16 @@ document.querySelector(".search-inp").addEventListener("focusout", () => {
     document.querySelector(".search-card").style.transition = "all ease .4s";
   }, 500);
 });
-document.querySelector(".menu-section1").addEventListener("click", (e) => {
-  if (
-    e.target.classList.contains("menu-section1")
-    ) {
-     document.querySelector(".menu-overlay").style.display="flex";
-  } else {
-    document.querySelector(".menu-overlay").style.display = "none";
-   }
+
+
+document.querySelector(".middle-section").addEventListener("click", () => {
+  document.querySelector(".menu-overlay").style.display = "none";
 });
+var toggleMenu = function (e) {
+  var menu_overlay = document.querySelector(".menu-overlay")
+  if (menu_overlay.style.display === "flex") {
+    menu_overlay.style.display="none"
+  } else {
+    menu_overlay.style.display="flex"
+  }
+}
