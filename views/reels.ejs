@@ -25,8 +25,66 @@
 
     <!-- Demo styles -->
   </head>
-
   <body>
+    <div class="overlay">
+      <!-- post upload form -->
+      <form
+        action="/uploadpost"
+        class="upload-form"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <div class="main-nav">
+          <h3>Create Post</h3>
+          <img src="../images/cross.png" alt="" class="cross" />
+        </div>
+        <div class="upload-nav">
+          <div class="img-cnt">
+            <img src="<%= user.profile_picture %>" />
+          </div>
+          <div class="username"><%=user.fullName%></div>
+        </div>
+        <div class="upload-cnt">
+          <input
+            type="text"
+            name="title"
+            placeholder="What's on your mind ?"
+            id=""
+          />
+          <h6 class="upload-err">Invalid File type</h6>
+          <input type="file" name="file" id="file_inp" onchange="checkFile()" />
+          <button type="submit">Post</button>
+        </div>
+      </form>
+    </div>
+    <div class="overlay2"></div>
+    <!-- card overlay -->
+    <div class="search-card mdl-card mdl-shadow--2dp">
+      <h2>Search</h2>
+      <div class="search-inp">
+        <input class="mdl-textfield__input" type="text" id="sample1" />
+      </div>
+      <h4>recent searches</h4>
+      <div class="search-content"></div>
+    </div>
+    <!-- menu overlay -->
+    <div class="menu-overlay">
+      <div class="menu-bar">
+        <a href="#"><i class="ri-settings-3-line"></i></a>
+        <a href="#">settings</a>
+      </div>
+      <div class="menu-bar">
+        <a href="#"><i class="ri-bookmark-line"></i></a>
+        <a href="#">saved</a>
+      </div>
+      <div class="menu-bar">
+        <a href="#"><i class="ri-error-warning-line"></i></a>
+        <a href="#">blocked</a>
+      </div>
+      <div class="menu-bar">
+        <a href="#">Log out</a>
+      </div>
+    </div>
     <div class="swiper mySwiper">
       <nav>
         <div class="navbar">
@@ -88,9 +146,30 @@
         </div>
         <% } %> <% }); %>
       </div>
+      <div class="feature">
+        <div class="heart">
+          <i class="ri-heart-line"></i>
+        </div>
+        <div class="cmt">
+          <i class="ri-chat-3-line"></i>
+        </div>
+        <div class="share">
+          <i class="ri-share-forward-line"></i>
+        </div>
+        <div class="bookmark">
+          <i class="ri-bookmark-line"></i>
+        </div>
+        <div class="menu">
+          <i class="ri-more-line"></i>
+        </div>
+        <div class="profile">
+          
+        </div>
+      </div>
       <div class="swiper-pagination"></div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- <script src="../javascripts/home.js"></script> -->
     <script src="../javascripts/reels.js"></script>
   </body>
 </html>

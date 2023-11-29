@@ -84,6 +84,15 @@ router.get("/username/:name", isLoggedIn, async function (req, res, next) {
   res.json({ foundUser: foundUser });
 });
 
+// single post
+router.get("/singlepost/:id", isLoggedIn, async function (req, res, next) {
+  const post = await postSchema
+    .findOne({ _id: req.params.id })
+    .populate([{ path: "author", model: "User" }]);
+  const user = await userSchema.findOne({_id:req.user._id})
+  res.render("singlePost", { post: post, user:user});
+});
+
 router.get("/profile/:id", isLoggedIn, async function (req, res, next) {
   const followUser = await userSchema.findOne({ _id: req.params.id });
   const user = await userSchema
@@ -109,7 +118,7 @@ router.get("/signup", function (req, res, next) {
   res.render("signup");
 });
 // reels
-router.get("/reels",isLoggedIn, async function (req, res, next) {
+router.get("/reels", isLoggedIn, async function (req, res, next) {
   const user = await userSchema.findOne({ _id: req.user._id });
   const allUser = await userSchema.find({ _id: { $ne: req.user._id } });
   const posts = await postSchema.find({}).populate("author");
@@ -143,6 +152,10 @@ router.get("/logout", function (req, res, next) {
 });
 
 router.get("/post/:id", isLoggedIn, async (req, res) => {
+  const singlePost = await postSchema.findOne({_id:req.params.id}).populate({
+    path: "author",
+    model:"User"
+  })
   const post = await postSchema
     .findById(req.params.id)
     // .populate("author comments.author");
@@ -153,7 +166,7 @@ router.get("/post/:id", isLoggedIn, async (req, res) => {
       },
     });
 
-  res.json({ post: post, user: req.user });
+  res.json({ post: post, user: req.user, singlePost:singlePost });
 });
 // followers
 router.get("/follow/:id", isLoggedIn, async (req, res) => {

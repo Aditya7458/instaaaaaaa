@@ -1,0 +1,108 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+    /* background-color: aqua; */
+    color: black;
+}
+.main{
+    width: 100%;
+    height: 100%;
+}
+.nav{
+    width: 100%;
+    height: 10%;
+    /* background-color: blue; */
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    font-size: xx-large;
+}
+.nav a{
+    all: unset;
+}
+.reel-container{
+    width: 100%;
+    height: 90%;
+    /* background-color: blueviolet; */
+    display: flex;
+    justify-content: center;
+}
+.reel-section{
+    width: 35%;
+    height: 100%;
+    /* background-color: cadetblue; */
+    display: flex;
+    align-items: end;
+}
+.reel-vdo{
+    width: 90%;
+    height: 100%;
+    /* background-color: azure; */
+    overflow: hidden;
+    /* object-fit: cover; */
+    /* object-position: center; */
+}
+.reel-vdo img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* object-position: center; */
+}
+.reel-vdo video{
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    height: 100%;
+}
+.profile{
+    /* width: 30%; */
+    height: 70px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    /* background-color:blue; */
+    color: #fff;
+    position: absolute;
+    top: 10%;
+    padding-left: 10px;
+
+}
+.profile a{
+    all:unset;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+.profile button{
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+}
+.reel-img{
+    width: 40px;
+    height: 40px;
+    background-color: red;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.reel-img img{
+    width: 100%;
+    height: 100%;
+}
+.feature-icons{
+  width: fit-content;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  height: fit-content;
+  font-size:xx-large;
+  /* background-color: #385898; */
+}

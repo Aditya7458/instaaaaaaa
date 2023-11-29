@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../stylesheets/singlePost.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="main">
+      <div class="nav">
+        <a href="/"><i class="ri-arrow-left-line"></i></a>
+      </div>
+      <div class="reel-container"></div>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.6/axios.min.js"
+      integrity="sha512-06NZg89vaTNvnFgFTqi/dJKFadQ6FIglD6Yg1HHWAUtVFFoXli9BZL4q4EO1UTKpOfCfW5ws2Z6gw49Swsilsg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+        var cont = document.querySelector(".reel-container");
+        var count =0
+        var single_post = "<%=post._id%>"
+      const loadPosts = async function () {
+        count++;
+        // console.log(single_post);
+        try {
+            console.log("hello");                   
+          const res = await axios.get(`/post/<%=post._id%>`);
+          console.log(res.data.post)
+          user = res.data.user;
+          // const likesCount = res.data.likesPopulate.map((e) => {
+          //   if (e.likes.length !== 0) {
+          //     // console.log(e.likes[(e.likes.length-1)].fullName)
+          //     return e.likes[e.likes.length - 1].fullName;
+          //   }
+          //   return null;
+          // });
+          // console.log(likesCount[likesCount.length-1])
+          handle(res.data.singlePost, user);
+        } catch (error) {
+          console.error("Error loading posts:", error);
+        }
+      };
+      if(count==0){
+        loadPosts();
+      }
+
+      var temp = "";
+      const handle = (post, user) => {
+        temp = ` <div class="reel-section" id="reel-sec">
+          <div class="reel-vdo">
+            ${
+              post.filetype == "video"
+                ? `<video loop autoplay controls src="${post.file}"></video>`
+                : `<img src="${post.file}" alt="" />`
+            }
+          </div>
+          <div class="profile">
+            <a href="/profile/${post.author._id}">
+              <div class="reel-img">
+                <img src="${post.author.profile_picture}" alt="" />
+              </div>
+              <h4>${post.author.fullName}</h4>
+            </a>
+            <button>Follow</button>
+          </div>
+          <div class="feature-icons">
+            <div class="heart" id="${post._id}">
+              ${
+                post.likes.includes(user._id)
+                  ? `<i
+                class="ri-heart-fill heart"
+                id="${post._id}>"
+                style="color: red"
+              ></i>`
+                  : `<i class="ri-heart-line heart" id="${post._id}"></i>`
+              }
+            </div>
+            <div class="cmt">
+              <i class="ri-chat-3-line"></i>
+            </div>
+            <div class="share">
+              <i class="ri-share-forward-line"></i>
+            </div>
+            <div class="bookmark">
+              <i class="ri-bookmark-line"></i>
+            </div>
+            <div class="menu">
+              <i class="ri-more-line"></i>
+            </div>
+            <div class="profile"></div>
+          </div>
+        </div>`;
+        cont.innerHTML = temp;
+      };
+
+        
+        document.querySelector(".reel-container").addEventListener("click", async (e) => {
+            if (e.target.classList.contains("heart")) {
+                const res = await axios.get(`/like/${e.target.id}`);
+                console.log(res);
+              loadPosts();
+            //   handle(res.data.post);
+            }
+          });
+    </script>
+  </body>
+</html>

@@ -130,8 +130,12 @@ const handle = (data, user) => {
               <div class="post-main-image">
                 ${
                   e.filetype == "video"
-                    ? `<video class="feeds" controls loop src="${e.file}"></video>`
-                    : `<img class="feeds" src="${e.file}" alt="" />`
+                    ? `<a href="/singlepost/${e._id}">
+                    <video class="feeds" controls loop src="${e.file}"></video> 
+                    </a>`
+                    : `<a href="/singlepost/${e._id}">
+                      <img class="feeds" src="${e.file}" alt="" />
+                    </a>`
                 }
               </div>
               <div class="post-fotter">

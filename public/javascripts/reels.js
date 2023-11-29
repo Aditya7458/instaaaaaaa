@@ -10,3 +10,5 @@ var swiper = new Swiper(".mySwiper", {
     clickable: true,
   },
 });
+// overlays
+
