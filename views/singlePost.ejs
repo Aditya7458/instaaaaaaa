@@ -28,12 +28,11 @@
         var count =0
         var single_post = "<%=post._id%>"
       const loadPosts = async function () {
-        count++;
+
         // console.log(single_post);
         try {
-            console.log("hello");                   
           const res = await axios.get(`/post/<%=post._id%>`);
-          console.log(res.data.post)
+        //   console.log(res.data.post)
           user = res.data.user;
           // const likesCount = res.data.likesPopulate.map((e) => {
           //   if (e.likes.length !== 0) {
@@ -48,9 +47,8 @@
           console.error("Error loading posts:", error);
         }
       };
-      if(count==0){
+    
         loadPosts();
-      }
 
       var temp = "";
       const handle = (post, user) => {
