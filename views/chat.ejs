@@ -302,7 +302,7 @@
           });
         });
       socket.on("getOnlineUser", function (data) {
-        console.log($("#" + data.user_id + "-status"));
+        // console.log($("#" + data.user_id + "-status"));
         $("#" + data.user_id + "-status").html("online");
         $("#" + data.user_id + "-status").removeClass("offline-status");
         $("#" + data.user_id + "-status").addClass("online-status");
@@ -326,7 +326,7 @@
           },
           success: function (response) {
             if (response.success) {
-              console.log(response.data.message);
+              // console.log(response.data.message);
               $("#message").val("");
               let chat = response.data.message;
               let html = `<div class="receiver">

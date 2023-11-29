@@ -8,6 +8,7 @@ const { GridFsStorage } = require("multer-gridfs-storage");
 const commentModel = require("./comments");
 const multer = require("multer");
 const Chat = require("../routes/chatModel");
+const qr = require("qrcode");
 
 // passport email setup
 passport.use(
@@ -76,21 +77,27 @@ router.get("/bookmark-post/:id", isLoggedIn, async function (req, res, next) {
 
 // search
 router.get("/username/:name", isLoggedIn, async function (req, res, next) {
-  console.log(req.params.name);
+  // console.log(req.params.name);
   const foundUser = await userSchema.find({
     fullName: { $regex: req.params.name, $options: "i" },
   });
-  console.log(foundUser);
+  // console.log(foundUser);
   res.json({ foundUser: foundUser });
 });
 
 // single post
 router.get("/singlepost/:id", isLoggedIn, async function (req, res, next) {
-  const post = await postSchema
-    .findOne({ _id: req.params.id })
-    .populate([{ path: "author", model: "User" }]);
-  const user = await userSchema.findOne({_id:req.user._id})
-  res.render("singlePost", { post: post, user:user});
+  const post = await postSchema.findOne({ _id: req.params.id }).populate([
+    { path: "author", model: "User" },
+    {
+      path: "comments",
+      model: "Comment",
+      populate: { path: "author", model: "User" },
+    },
+  ]);
+  const user = await userSchema.findOne({ _id: req.user._id });
+  console.log(post);
+  res.render("singlePost", { post: post, user: user });
 });
 
 router.get("/profile/:id", isLoggedIn, async function (req, res, next) {
@@ -104,6 +111,14 @@ router.get("/profile/:id", isLoggedIn, async function (req, res, next) {
     loggedInUser: loggedInUser,
     followUser: followUser,
   });
+});
+// qr share post
+
+router.get("/shareqr/:id", isLoggedIn, async function (req, res, next) {
+  const post = await postSchema.findOne({ _id: req.params.id });
+  const qrCodeData = `http://localhost:3000/singlepost/${post._id}`;
+  var qrCode = await qr.toDataURL(qrCodeData)
+  res.json({qrCode:qrCode})
 });
 // chat page
 
@@ -152,27 +167,26 @@ router.get("/logout", function (req, res, next) {
 });
 
 router.get("/post/:id", isLoggedIn, async (req, res) => {
-  const singlePost = await postSchema.findOne({_id:req.params.id}).populate({
+  const singlePost = await postSchema.findOne({ _id: req.params.id }).populate({
     path: "author",
-    model:"User"
-  })
-  const post = await postSchema
-    .findById(req.params.id)
-    // .populate("author comments.author");
-    .populate({
+    model: "User",
+  });
+  const user = await userSchema.findOne({ _id: req.user._id });
+  const post = await postSchema.findOne({ _id: req.params.id }).populate([
+    { path: "author", model: "User" },
+    {
       path: "comments",
-      populate: {
-        path: "author",
-      },
-    });
-
-  res.json({ post: post, user: req.user, singlePost:singlePost });
+      model: "Comment",
+      populate: { path: "author", model: "User" },
+    },
+  ]);
+  res.json({ post: post, user: user, singlePost: singlePost });
 });
 // followers
 router.get("/follow/:id", isLoggedIn, async (req, res) => {
   const followUser = await userSchema.findOne({ _id: req.params.id });
   const loggedInUser = await userSchema.findOne({ _id: req.user._id });
-  console.log(followUser.followers.indexOf(loggedInUser._id));
+  // console.log(followUser.followers.indexOf(loggedInUser._id));
   if (followUser.followers.indexOf(loggedInUser._id) === -1) {
     followUser.followers.push(loggedInUser._id);
     loggedInUser.following.push(followUser._id);

@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
   posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
   followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  // comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   is_online: {
     type: String,
     default: "0",

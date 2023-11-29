@@ -676,7 +676,37 @@ body {
   --stk-top-left: 5.4rem;
   --stk-top-right: -18rem;
 }
-
+/* share menu */
+.share-menu{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.414);
+  display: none;
+  z-index: 11;
+  overflow-y: scroll;
+}
+.share-btn {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.414);
+  display: none;
+  z-index: 11;
+  overflow-y: scroll;
+}
+.share-icons{
+  display: flex;
+  padding: 20px 20px;
+  gap: 20px;
+}
+.share-icons i{
+  font-size: xx-large;
+}
 .overlay {
   position: fixed;
   top: 0;

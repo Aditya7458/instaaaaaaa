@@ -24,15 +24,14 @@
       referrerpolicy="no-referrer"
     ></script>
     <script>
-        var cont = document.querySelector(".reel-container");
-        var count =0
-        var single_post = "<%=post._id%>"
+      var cont = document.querySelector(".reel-container");
+      var count = 0;
+      var single_post = "<%=post._id%>";
       const loadPosts = async function () {
-
         // console.log(single_post);
         try {
           const res = await axios.get(`/post/<%=post._id%>`);
-        //   console.log(res.data.post)
+          //   console.log(res.data.post)
           user = res.data.user;
           // const likesCount = res.data.likesPopulate.map((e) => {
           //   if (e.likes.length !== 0) {
@@ -47,8 +46,8 @@
           console.error("Error loading posts:", error);
         }
       };
-    
-        loadPosts();
+
+      loadPosts();
 
       var temp = "";
       const handle = (post, user) => {
@@ -67,7 +66,13 @@
               </div>
               <h4>${post.author.fullName}</h4>
             </a>
-            <button>Follow</button>
+            ${
+              user._id !== post.author._id
+                ? post.author.followers.includes(user._id)
+                  ? `<a href="/follow/${post.author._id}"><button>Unfollow</button></a>`
+                  : `<a href="/follow/${post.author._id}"><button>Follow</button></a>`
+                : ``
+            }
           </div>
           <div class="feature-icons">
             <div class="heart" id="${post._id}">
@@ -81,14 +86,20 @@
                   : `<i class="ri-heart-line heart" id="${post._id}"></i>`
               }
             </div>
-            <div class="cmt">
-              <i class="ri-chat-3-line"></i>
+            <div id="${post._id}" class="cmt comment" >
+              <i id="${post._id}" class="ri-chat-3-line comment"></i>
             </div>
             <div class="share">
-              <i class="ri-share-forward-line"></i>
+              <a target="_blank" href="http://web.whatsapp.com/send?text=http://localhost:3000/singlepost/${
+                post._id
+              }"><i class="ri-share-forward-line"></i></a>
             </div>
-            <div class="bookmark">
-              <i class="ri-bookmark-line"></i>
+            <div class="bookmark" id="${post._id}" >
+              ${
+                user.bookmarks.includes(post._id)
+                  ? `<i id="${post._id}" class="ri-bookmark-fill" style="color:black" ></i>`
+                  : `<i id="${post._id}" class="ri-bookmark-line" ></i>`
+              }
             </div>
             <div class="menu">
               <i class="ri-more-line"></i>
@@ -99,15 +110,58 @@
         cont.innerHTML = temp;
       };
 
-        
-        document.querySelector(".reel-container").addEventListener("click", async (e) => {
-            if (e.target.classList.contains("heart")) {
-                const res = await axios.get(`/like/${e.target.id}`);
-                console.log(res);
-              loadPosts();
-            //   handle(res.data.post);
-            }
-          });
+      // console.log();
+     document
+  .querySelector(".reel-container")
+  .addEventListener("click", async (e) => {
+    if (e.target.classList.contains("heart")) {
+      const res = await axios.get(`/like/${single_post}`);
+      loadPosts();
+      // handle(res.data.post);
+    } else if (e.target.classList.contains("comment")) {
+      // console.log(e.target.id);
+      const res = await axios.get(`/post/${e.target.id}`);
+      // console.log(res.data.post.comments);
+      let html;
+      document.querySelector(".reel-container").innerHTML+=`
+                  <form action="/comment/${res.data.post._id}" method="POST">
+                    <input name="comment" placeholder="Add comment" required></input>
+                    <button type="submit">Comment</button>
+                  </form>`
+      if (res.data.post.comments.length > 0) {
+        const commentsHtml = res.data.post.comments
+          .map(
+            (comment) => `
+              <a href="/profile/${comment.author._id}">
+                <div class="reel-img">
+                  <img src="${comment.author.profile_picture}" alt="">
+                </div>
+                <h4>${comment.author.fullName}</h4>
+              </a>
+              <h4>${comment.comment}</h4>
+              <h5><a href="/deletecomment/${res.data.post._id}/${comment._id}">❌</a></h5>
+            `
+          )
+          .join("");
+
+        html = `<div class="comments">${commentsHtml}</div>`;
+      } else {
+        html = `<div class="comments">
+                  <h5>No comments</h5>
+                </div>`;
+      }
+
+      document.querySelector(".reel-container").innerHTML += html;
+    } else if (
+      e.target.classList.contains("ri-bookmark-line") ||
+      e.target.classList.contains("ri-bookmark-fill")
+    ) {
+      // console.log(e.target.id);
+      const res = await axios.get(`/bookmark-post/${e.target.id}`);
+      loadPosts();
+    }
+  });
+
     </script>
   </body>
 </html>

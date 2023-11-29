@@ -146,7 +146,7 @@ const handle = (data, user) => {
                       : `<i class="fa-regular fa-heart like" id="${e._id}"></i>`
                   }
                   <i class="fa-regular fa-message comment " id=${e._id}></i>
-                  <i class="fa-regular fa-paper-plane"></i>
+                  <i class="fa-regular fa-paper-plane" id=${e._id}></i>
                 </div>
                 ${
                   user.bookmarks.includes(e._id)
@@ -166,18 +166,45 @@ const handle = (data, user) => {
   });
   post_area.innerHTML = temp;
 };
-
+var qr = document.querySelector(".share-menu");
+qr.addEventListener("click", (e) => {
+  if (e.target.classList.contains("share-menu")) {
+    qr.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+});
+var qr_btn = document.querySelector(".share-btn");
+qr_btn.addEventListener("click", (e) => {
+  if (e.target.classList.contains("share-btn")) {
+    qr_btn.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+});
 var overlay2 = document.querySelector(".overlay2");
 var handdleBookmark = async (e) => {
   const res = await axios.get(`/bookmark-post/${e}`);
   loadPosts();
 };
-
+const shareHandler = async (e) => {
+  const res = await axios.get(`/shareqr/${e}`);
+  // console.log(res);
+  document.querySelector(".share-btn").style.display = "block";
+  document.querySelector(".whatsapp-a").href =
+    `http://web.whatsapp.com/send?text=http://localhost:3000/singlepost/${e}`
+  document.querySelector(".ri-qr-scan-2-line").addEventListener("click", (e) => {
+     document.querySelector(".share-btn").style.display = "none";
+     document.querySelector(".qrimg").src = `${res.data.qrCode}`;
+     document.querySelector(".share-menu").style.display = "block";
+  })
+};
 post_area.addEventListener("click", async (e) => {
   if (e.target.classList.contains("like")) {
     likeHandler(e.target.id);
   } else if (e.target.classList.contains("fa-bookmark")) {
     handdleBookmark(e.target.id);
+  } else if (e.target.classList.contains("fa-paper-plane")) {
+    // console.log(e.target.id);
+    shareHandler(e.target.id);
   } else if (e.target.classList.contains("comment")) {
     document.body.style.overflow = "hidden";
     const { data } = await axios.get(`/post/${e.target.id}`);
@@ -241,11 +268,11 @@ document.querySelector(".search-btn").addEventListener("click", () => {
   document.querySelector(".mdl-textfield__input").value = "";
 });
 document.querySelector(".search-inp").addEventListener("keydown", function (e) {
-  console.log(e.target.value);
+  // console.log(e.target.value);
   if (e.target.value.length > 0) {
     axios.get(`/username/${e.target.value}`).then((res) => {
       content.innerHTML = "";
-      console.log(res.data);
+      // console.log(res.data);
       res.data.foundUser.forEach((user) => {
         content.innerHTML += `
         <a href="/profile/${user._id}"> <div class="search-img">

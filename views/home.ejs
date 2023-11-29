@@ -17,6 +17,24 @@
   </head>
   <body>
     <div class="main">
+      <div class="share-btn">
+        <div class="upload-form">
+          <div class="share-icons">
+            <a class="whatsapp-a" target="_blank" href=""
+              ><i class="ri-whatsapp-line"></i
+            ></a>
+            <i class="ri-qr-scan-2-line"></i>
+          </div>
+        </div>
+      </div>
+      <div class="share-menu">
+        <div class="upload-form">
+          <div class="upload-cnt">
+            <img class="qrimg" height="180px" src="" alt="" />
+            <h4>scan here to share post</h4>
+          </div>
+        </div>
+      </div>
       <div class="overlay">
         <!-- post upload form -->
         <form
@@ -43,7 +61,12 @@
               id=""
             />
             <h6 class="upload-err">Invalid File type</h6>
-            <input type="file" name="file" id="file_inp" onchange="checkFile()"/>
+            <input
+              type="file"
+              name="file"
+              id="file_inp"
+              onchange="checkFile()"
+            />
             <button type="submit">Post</button>
           </div>
         </form>
